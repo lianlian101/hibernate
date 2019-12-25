@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.hibernate.entity.Role" table="role">
+        <!-- 主键 -->
+        <id name="id" column="id">
+            <!-- 主键增长策略 -->
+            <generator class="native"></generator>
+        </id>
+        <property name="roleName" column="role_name" />
+        <!-- 多对多，多个用户
+            name: 关联的另一个表的集合名字
+            talbe: 中间表名称
+         -->
+        <set name="users" table="user_role" cascade="save-update">
+            <!-- 当前表在中间表中的外键名称 -->
+            <key column="role_id"></key>
+            <!-- 
+                class: 关联的另一个表的类的全路径 
+                column: 关联的另一个表在中间表的外键名称
+            -->
+            <many-to-many class="com.hibernate.entity.User" column="user_id" />
+        </set>
+    </class>
+</hibernate-mapping>

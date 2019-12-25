@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.hibernate.entity.User" table="user">
+        <!-- 主键 -->
+        <id name="id" column="id">
+            <!-- 主键增长策略 -->
+            <generator class="native"></generator>
+        </id>
+        <property name="username" column="username" />
+        <!-- 一对多，多个地址 -->
+        <set name="addresses" table="address">
+            <key column="user_id"></key>
+            <one-to-many class="com.hibernate.entity.Address"/>
+        </set>
+        <!-- 多对多，多个角色 
+            cascade: 维护多对多的关系表的外键，多对多的时候，只需要一方负责维护第三张表即可
+        -->
+        <set name="roles" table="user_role" cascade="save-update">
+            <key column="user_id" />
+            <many-to-many class="com.hibernate.entity.Role" column="role_id"/>
+        </set>
+    </class>
+</hibernate-mapping>
